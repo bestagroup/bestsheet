@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class MediaFileController extends Controller
+class FilemanagerController extends Controller
 {
     public function index(Request $request){
         $thispage       = [

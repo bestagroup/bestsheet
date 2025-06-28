@@ -18,11 +18,11 @@ Route::middleware('admin')->namespace('App\Http\Controllers\Panel')->group(funct
     Route::resource('panel/roleuser'     , 'RoleuserController');
     Route::resource('panel/leveluser'    , 'LeveluserController');
     Route::resource('panel/useraccess'   , 'UseraccessController');
-    Route::resource('panel/filemanager'  , 'MediaFileController');
+    Route::resource('panel/filemanager'  , 'FilemanagerController');
     Route::resource('panel/project'      , 'ProjectController');
     Route::resource('panel/paidmanage'   , 'PaidController');
     Route::resource('panel/receivemanage', 'ReceiveController');
-    Route::post('panel/store'              , 'MediaFileController@store')->name('storemedia');
+    Route::post('panel/store'              , 'FilemanagerController@store')->name('storemedia');
 });
 
 

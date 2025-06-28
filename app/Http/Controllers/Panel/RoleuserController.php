@@ -11,6 +11,7 @@ use App\Models\TypeUser;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
 class RoleuserController extends Controller
@@ -61,11 +62,15 @@ class RoleuserController extends Controller
                 })
                 ->editColumn('action', function ($data) {
                     $actionBtn = '';
-                    if (auth()->user()->can('can-access', ['project', 'edit'])) {
-                        $actionBtn .= '<button type="button" data-bs-toggle="modal" data-bs-target="#editModal'.$data->id.'" class="btn btn-sm btn-icon btn-outline-primary"><i class="mdi mdi-pencil-outline"></i></button>';
+                    if (Gate::allows('can-access', ['roleuser', 'edit'])) {
+                        $actionBtn .= '<button type="button" data-bs-toggle="modal" data-bs-target="#editModal'.$data->id.'" class="btn btn-sm btn-icon btn-outline-primary">
+                        <i class="mdi mdi-pencil-outline"></i>
+                      </button> ';
                     }
-                    if (auth()->user()->can('can-access', ['project', 'delete'])) {
-                        $actionBtn .= '<button class="btn btn-sm btn-icon btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal'.$data->id.'"><i class="mdi mdi-delete-outline"></i></button>';
+                    if (Gate::allows('can-access', ['roleuser', 'delete'])) {
+                        $actionBtn .= '<button class="btn btn-sm btn-icon btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal' . $data->id . '" id="#deletesubmit_' . $data->id . '" data-id="#deletesubmit_' . $data->id . '">
+                        <i class="mdi mdi-delete-outline"></i>
+                       </button>';
                     }
 
                         $actionBtn .= '<button class="btn btn-sm btn-icon btn-outline-danger" data-bs-toggle="modal" data-bs-target="#permissionsModal'.$data->id.'"><i class="mdi mdi-access-point"></i></button>';

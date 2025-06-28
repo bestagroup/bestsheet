@@ -27,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
 
             $permissions = $user->permissionsWithActions();
             $perm = $permissions->first(fn($p) => $p->slug === $slug);
+
             if (!$perm) return false;
 
             return match ($action) {

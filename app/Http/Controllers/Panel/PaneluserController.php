@@ -12,7 +12,9 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
 class PaneluserController extends Controller
@@ -64,11 +66,15 @@ class PaneluserController extends Controller
                 })
                 ->editColumn('action', function ($data) {
                     $actionBtn = '';
-                    if (auth()->user()->can('can-access', ['project', 'edit'])) {
-                        $actionBtn .= '<button type="button" data-bs-toggle="modal" data-bs-target="#editModal'.$data->id.'" class="btn btn-sm btn-icon btn-outline-primary"><i class="mdi mdi-pencil-outline"></i></button>';
+                    if (Gate::allows('can-access', ['paneluser', 'edit'])) {
+                        $actionBtn .= '<button type="button" data-bs-toggle="modal" data-bs-target="#editModal'.$data->id.'" class="btn btn-sm btn-icon btn-outline-primary">
+                        <i class="mdi mdi-pencil-outline"></i>
+                      </button> ';
                     }
-                    if (auth()->user()->can('can-access', ['project', 'delete'])) {
-                        $actionBtn .= '<button class="btn btn-sm btn-icon btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal'.$data->id.'"><i class="mdi mdi-delete-outline"></i></button>';
+                    if (Gate::allows('can-access', ['paneluser', 'delete'])) {
+                        $actionBtn .= '<button class="btn btn-sm btn-icon btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal' . $data->id . '" id="#deletesubmit_' . $data->id . '" data-id="#deletesubmit_' . $data->id . '">
+                        <i class="mdi mdi-delete-outline"></i>
+                       </button>';
                     }
                     return $actionBtn;
                 })
@@ -82,18 +88,27 @@ class PaneluserController extends Controller
     {
         try {
 
-            Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]);
-            $this->validator($request->all())->validate();
 
-            event(new Registered($user = $this->create($request->all())));
+            $validator->validate();
 
-            if ($result1 = $this->registered($request, $user)) {
-                return $result1;
-            }
+            $user = new User();
+            $user->name         = $request->input('name');
+            $user->phone        = $request->input('phone');
+            $user->email        = $request->input('email');
+            $user->national_id  = $request->input('national_id');
+            $user->type_id      = $request->input('typeuser_id');
+            $user->role_id      = $request->input('typeuser_id');
+            $user->birthday     = $request->input('birthday');
+            $user->gender       = $request->input('gender');
+            $user->level        = 'admin';
+            $user->status       = 4;
+            $user->password     = Hash::make($request->input('password'));
+            $result1 = $user->save();
 
             if ($result1 == true) {
                 $success = true;
@@ -136,7 +151,7 @@ class PaneluserController extends Controller
         $user->birthday     = $request->input('birthday');
         $user->gender       = $request->input('gender');
         if ($request->input('password')) {
-            $user->password = $request->input('password');
+            $user->password     = Hash::$request->input('password');
         }
         $user->status       = $request->input('status');
         $result = $user->update();
@@ -201,4 +216,5 @@ class PaneluserController extends Controller
         }
         return response()->json(['success'=>$success , 'subject' => $subject, 'flag' => $flag, 'message' => $message]);
     }
+
 }

@@ -11,7 +11,9 @@
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="card-title mb-0">{{$thispage['list']}}</h5>
+                @if(Gate::allows('can-access', ['roleuser', 'insert']))
                 <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">{{$thispage['add']}}</a>
+                @endif
             </div>
 
             <div class="table-responsive">
