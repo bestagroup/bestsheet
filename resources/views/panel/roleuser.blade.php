@@ -3,7 +3,7 @@
 @section('title', 'مدیریت نقش کاربران داشبورد')
 
 @section('style')
-    <link rel="stylesheet" href="{{'https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css'}}"/>
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/rtl/dataTables.dataTables.min.css') }}"/>
     <link rel="stylesheet" href="{{'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'}}" />
 @endsection
 @section('content')
@@ -223,9 +223,9 @@
 @endsection
 @section('script')
     <script src="{{'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js'}}"></script>
-    <script src="{{'https://cdn.datatables.net/2.2.2/js/dataTables.min.js' }}"></script>
-    <script src="{{'https://cdn.jsdelivr.net/npm/sweetalert2@11'}}"></script>
-    <script src="{{'https://cdn.datatables.net/plug-ins/1.13.5/i18n/fa.json'}}"></script>
+    <script src="{{asset('assets/vendor/js/dataTables.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/js/sweetalert2.js')}}"></script>
+{{--    <script src="{{'https://cdn.datatables.net/plug-ins/1.13.5/i18n/fa.json'}}"></script>--}}
 
     <script type="text/javascript">
         $(function () {
@@ -242,7 +242,7 @@
                     {data: 'action'         , name: 'action', orderable: true, searchable: true},
                 ],
                 language: {
-                    url: "https://cdn.datatables.net/plug-ins/1.13.5/i18n/fa.json"
+                    url: "{{asset('assets/vendor/js/fa.json')}}"
                 }
             });
         });

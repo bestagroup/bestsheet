@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('title', 'مدیریت زیر منوهای داشبورد')
-<link rel="stylesheet" href="{{ asset('https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css') }}"/>
+<link rel="stylesheet" href="{{ asset('assets/vendor/css/rtl/dataTables.dataTables.min.css') }}"/>
 @section('content')
     <div class="card">
         <div class="card-body">
@@ -280,9 +280,9 @@
     @endforeach
 @endsection
 @section('script')
-    <script src="{{ 'https://cdn.datatables.net/2.2.2/js/dataTables.min.js' }}"></script>
-    <script src="{{'https://cdn.jsdelivr.net/npm/sweetalert2@11'}}"></script>
-    <script src="https://cdn.datatables.net/plug-ins/1.13.5/i18n/fa.json"></script>
+    <script src="{{asset('assets/vendor/js/dataTables.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/js/sweetalert2.js')}}"></script>
+{{--    <script src="https://cdn.datatables.net/plug-ins/1.13.5/i18n/fa.json"></script>--}}
 
     <script type="text/javascript">
         $(function () {
@@ -318,7 +318,7 @@
                     {data: 'action'                         , name: 'action', orderable: true, searchable: true},
                 ],
                 language: {
-                    url: "https://cdn.datatables.net/plug-ins/1.13.5/i18n/fa.json"
+                    url: "{{asset('assets/vendor/js/fa.json')}}"
                 }
             });
         });
