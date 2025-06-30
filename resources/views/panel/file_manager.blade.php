@@ -1,8 +1,12 @@
 @extends('layouts.base')
 @section('title', 'مدیریت فایل‌ها')
+<style> table{margin: 0 auto;width: 100% !important;clear: both;border-collapse: collapse;table-layout: fixed;word-wrap:break-word;} .dt-layout-start{margin-right: 0 !important;} .dt-layout-end{margin-left: 0 !important;}</style>
 <link rel="stylesheet" href="{{ asset('assets/vendor/css/rtl/dataTables.dataTables.min.css') }}"/>
 <link href="{{'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css'}}" rel="stylesheet">
-
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css"
+/>
 @section('content')
     <div class="card">
         <div class="card-body">
@@ -12,7 +16,6 @@
             </div>
 
             <div class="table-responsive">
-                <style> table{margin: 0 auto;width: 100% !important;clear: both;border-collapse: collapse;table-layout: fixed;word-wrap:break-word;} .dt-layout-start{margin-right: 0 !important;} .dt-layout-end{margin-left: 0 !important;}</style>
                 <table id="sample1" class="table table-striped table-bordered yajra-datatable">
                     <thead>
                     <tr class="table-light">
@@ -71,50 +74,6 @@
                             <p class="small text-secondary mb-0">فرمت‌های مجاز: JPG, PNG, PDF, MP4, DOCX (حداکثر 10 مگابایت)</p>
                         </div>
                     </form>
-                    <style>
-                        #fileUploadZone .dz-preview {
-                            display: inline-block;
-                            margin-right: 8px;
-                        }
-
-                        #fileUploadZone.dz-started .dz-message {
-                            display: none;
-                        }
-                        /* ساختار شبکه مرتب برای فایل‌ها */
-                        #fileUploadZone .dz-preview {
-                            width: 160px;
-                            margin: 10px;
-                        }
-
-                        #fileUploadZone {
-                            display: flex;
-                            flex-wrap: wrap;
-                            gap: 10px;
-                            justify-content: start;
-                        }
-
-                        /* انیمیشن لودینگ دایره‌ای */
-                        .dz-preview .loading-spinner {
-                            width: 32px;
-                            height: 32px;
-                            border: 3px solid #ccc;
-                            border-top: 3px solid #007bff;
-                            border-radius: 50%;
-                            animation: spin 0.8s linear infinite;
-                            margin: 10px auto;
-                        }
-
-                        @keyframes spin {
-                            0% { transform: rotate(0deg); }
-                            100% { transform: rotate(360deg); }
-                        }
-
-                        /* پس از آپلود موفق */
-                        .dz-success .loading-spinner {
-                            display: none !important;
-                        }
-                    </style>
-
                 </div>
             </div>
         </div>
@@ -212,17 +171,22 @@
                     acceptedFiles: 'image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                     dictDefaultMessage: "فایل را اینجا رها کنید یا کلیک کنید برای انتخاب",
                     previewTemplate: `
-                <div class="dz-preview dz-file-preview d-flex flex-column align-items-center me-2 mb-3" style="width: 140px;">
-                    <div class="card shadow-sm border rounded p-2 text-center w-100 position-relative">
-                        <img data-dz-thumbnail class="img-fluid rounded mb-2" style="max-height: 100px; object-fit: cover;" alt="" />
-                        <div class="text-truncate small fw-bold text-dark" data-dz-name></div>
-                        <div class="text-muted small" data-dz-size></div>
-                        <div class="progress mt-2 w-100" style="height: 5px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 0%;" data-dz-uploadprogress></div>
-                        </div>
-                        <div class="upload-percent position-absolute top-0 end-0 m-1 badge bg-primary" style="font-size: 0.75rem;">0%</div>
-                    </div>
-                </div>`,
+<div class="dz-preview dz-file-preview d-flex flex-column align-items-center me-2 mb-3" style="width: 160px;">
+  <div class="card border rounded shadow-sm text-center p-2 position-relative" style="width: 100%;">
+    <div class="dz-image mb-2 rounded overflow-hidden" style="width: 100%; height: 100px; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
+      <img data-dz-thumbnail style="max-height: 100%; max-width: 100%; object-fit: cover;" class="img-fluid"  alt="" src=""/>
+    </div>
+    <div class="dz-details w-100">
+      <div class="text-truncate fw-bold small text-dark" data-dz-name></div>
+      <div class="text-muted small mb-1" data-dz-size></div>
+      <div class="progress w-100 mb-1" style="height: 4px;">
+        <div class="progress-bar bg-primary" role="progressbar" data-dz-uploadprogress style="width: 0;"></div>
+      </div>
+      <div class="upload-percent badge bg-primary position-absolute top-0 end-0 m-1" style="font-size: 0.7rem;">0%</div>
+    </div>
+  </div>
+</div>
+`,
 
                     init: function () {
                         this.on("addedfile", function () {
