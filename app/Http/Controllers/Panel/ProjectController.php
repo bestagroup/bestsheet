@@ -105,6 +105,10 @@ class ProjectController extends Controller
                     if (auth()->user()->can('can-access', ['project', 'delete'])) {
                         $actionBtn .= '<button class="btn btn-sm btn-icon btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal'.$data->id.'"><i class="mdi mdi-delete-outline"></i></button>';
                     }
+                    $actionBtn .= '<button class="btn btn-sm btn-icon btn-eye" data-bs-toggle="modal" data-bs-target="#showModal'.$data->id.'"><i class="mdi mdi-eye"></i></button>';
+
+                    $actionBtn .= '<button class="btn btn-sm btn-icon btn-image" data-bs-toggle="modal" data-bs-target="#uploadModal'.$data->id.'"><i class="mdi mdi-file-document-multiple-outline"></i></button>';
+
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])

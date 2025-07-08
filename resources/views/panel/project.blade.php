@@ -14,6 +14,7 @@
                 <table id="sample1" class="table table-striped table-bordered yajra-datatable">
                 <thead>
                     <tr class="table-light">
+                        <th>تغییرات</th>
                         <th>سریال</th>
                         <th>نام تجاری طرح</th>
                         <th>نام شرکت</th>
@@ -36,6 +37,7 @@
                         <th>مبلغ تعهد مرحله پنجم</th>
                         <th>واریز قسط مرحله پنجم</th>
                         <th>مانده تعهدات</th>
+                        <th>تغییرات</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -278,10 +280,215 @@
             </div>
         </div>
     @endforeach
+
+    @foreach($projects as $project)
+
+        <!-- مدال -->
+        <div class="modal fade" id="showModal{{ $project->id }}" tabindex="-1" aria-labelledby="editModalLabel{{$project->id}}" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title">اطلاعات شرکت: {{ $project->company_name ?? '---' }} </h5>
+                        <button  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" id="companyTabs{{ $project->id }}" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="profile-tab{{ $project->id }}" data-bs-toggle="tab" data-bs-target="#tab-profile{{ $project->id }}"
+                                        type="button" role="tab" aria-controls="tab-profile{{ $project->id }}" aria-selected="true">
+                                    پروفایل
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="investment-tab{{ $project->id }}" data-bs-toggle="tab" data-bs-target="#tab-investment{{ $project->id }}"
+                                        type="button" role="tab" aria-controls="tab-investment{{ $project->id }}" aria-selected="false">
+                                    سرمایه‌گذاری
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="payments-tab{{ $project->id }}" data-bs-toggle="tab" data-bs-target="#tab-payments{{ $project->id }}"
+                                        type="button" role="tab" aria-controls="tab-payments{{ $project->id }}" aria-selected="false">
+                                    پرداخت‌ها
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="kpi-tab{{ $project->id }}" data-bs-toggle="tab" data-bs-target="#tab-kpi{{ $project->id }}"
+                                        type="button" role="tab" aria-controls="tab-kpi{{ $project->id }}" aria-selected="false">
+                                    KPI
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- Tab Content -->
+                        <div class="tab-content mt-3" id="companyTabsContent{{ $project->id }}">
+                            <!-- Profile Tab -->
+                            <div class="tab-pane fade show active" id="tab-profile{{ $project->id }}" role="tabpanel" aria-labelledby="profile-tab{{ $project->id }}">
+                                <img src="{{ $project->logo_url ?? 'logo.png' }}" class="rounded-circle mb-3" width="80" height="80" alt="لوگو">
+                                <p><strong>نام تجاری:</strong> {{ $project->company_name }}</p>
+                                <p><strong>مدیرعامل:</strong> {{ $project->CEO }}</p>
+                                <p><strong>شماره موبایل:</strong> {{ $project->ceo_phone }}</p>
+                                <p><strong>وضعیت پروژه:</strong> {{ $project->activity_status }}</p>
+                            </div>
+
+                            <!-- Investment Tab -->
+                            <div class="tab-pane fade" id="tab-investment{{ $project->id }}" role="tabpanel" aria-labelledby="investment-tab{{ $project->id }}">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <input type="checkbox" {{ $project->step_1 ? 'checked' : '' }} disabled> ارسال مدارک
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" {{ $project->step_2 ? 'checked' : '' }} disabled> ارزیابی اولیه
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" {{ $project->step_3 ? 'checked' : '' }} disabled> تایید نهایی
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Payments Tab  -->
+                            <div class="tab-pane fade" id="tab-payments{{ $project->id }}" role="tabpanel" aria-labelledby="payments-tab{{ $project->id }}">
+                                <table class="table table-bordered mt-2">
+                                    <thead>
+                                    <tr>
+                                        <th>مبلغ</th>
+                                        <th>تاریخ پرداخت</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($project->payments ?? [] as $payment)
+                                        <tr>
+                                            <td>{{ number_format($payment->amount) }} تومان</td>
+                                            <td>{{ jdate($payment->date)->format('Y/m/d') }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- KPI Tab -->
+                            <div class="tab-pane fade" id="tab-kpi{{ $project->id }}" role="tabpanel" aria-labelledby="kpi-tab{{ $project->id }}">
+                                <ul class="list-group">
+                                    @foreach($project->kpis ?? [] as $kpi)
+                                        <li class="list-group-item" >
+                                            <input type="checkbox" {{ $kpi->completed ? 'checked' : '' }} disabled> {{ $kpi->title }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    @foreach($projects as $project)
+
+        <div class="modal fade" id="uploadModal{{ $project->id }}" tabindex="-1" aria-labelledby="uploadModalLabel{{ $project->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadModalLabel">{{$thispage['add']}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST"
+                          action="{{ route('storemedia') }}"
+                          enctype="multipart/form-data"
+                          class="dropzone"
+                          id="fileUploadZone{{ $project->id }}"
+                          data-record-id="{{ $project->id }}"
+                          style="min-height: 200px; border-style: dashed; border: 2px dashed #ccc; padding: 20px; margin-bottom: 30px;">
+                        @csrf
+
+                        <div class="dz-message text-center text-muted">
+                            <div class="mb-3">
+                                <i class="bi bi-cloud-arrow-up" style="font-size: 3rem;"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">برای آپلود فایل، کلیک کنید یا فایل را بکشید اینجا</h5>
+                            <p class="small text-secondary mb-0">فرمت‌های مجاز: JPG, PNG, PDF, MP4, DOCX (حداکثر 10 مگابایت)</p>
+                        </div>
+                    </form>
+                    <style>
+                        #fileUploadZone .dz-preview {
+                            display: inline-block;
+                            margin-right: 8px;
+                        }
+
+                        #fileUploadZone.dz-started .dz-message {
+                            display: none;
+                        }
+                        /* ساختار شبکه مرتب برای فایل‌ها */
+                        #fileUploadZone .dz-preview {
+                            width: 160px;
+                            margin: 10px;
+                        }
+
+                        #fileUploadZone {
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 10px;
+                            justify-content: start;
+                        }
+
+                        /* انیمیشن لودینگ دایره‌ای */
+                        .dz-preview .loading-spinner {
+                            width: 32px;
+                            height: 32px;
+                            border: 3px solid #ccc;
+                            border-top: 3px solid #007bff;
+                            border-radius: 50%;
+                            animation: spin 0.8s linear infinite;
+                            margin: 10px auto;
+                        }
+
+                        @keyframes spin {
+                            0% { transform: rotate(0deg); }
+                            100% { transform: rotate(360deg); }
+                        }
+
+                        /* پس از آپلود موفق */
+                        .dz-success .loading-spinner {
+                            display: none !important;
+                        }
+                    </style>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="previewModalLabel">پیش نمایش فایل</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+                    </div>
+                    <div class="modal-body text-center" id="previewContent">
+                        <!-- فایل پیش نمایش اینجا لود می‌شود -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
 @endsection
 @section('script')
     <script src="{{asset('assets/vendor/js/dataTables.min.js')}}"></script>
     <script src="{{asset('assets/vendor/js/sweetalert2.js')}}"></script>
+    <script src="{{asset('assets/vendor/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{'https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js'}}"></script>
 {{--    <script src="https://cdn.datatables.net/plug-ins/1.13.5/i18n/fa.json"></script>--}}
 
     <script type="text/javascript">
@@ -293,6 +500,7 @@
                 scrollX: true,
                 ajax: "{{ route(request()->segment(2) . '.index') }}",
                 columns: [
+                    {data: 'action'                         , name: 'action', orderable: true, searchable: true},
                     {data: 'id'                             , name: 'id'},
                     {data: 'title'                          , name: 'title'},
                     {data: 'company_name'                   , name: 'company_name'},
@@ -513,6 +721,39 @@
             } else {
                 e.target.value = '';
             }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll("form.dropzone").forEach(formEl => {
+                const recordId = formEl.getAttribute("data-record-id");
+console.log(recordId);
+                const dz = new Dropzone(formEl, {
+                    url: "{{ route('storemedia') }}",
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    maxFilesize: 20,
+                    acceptedFiles: 'image/*,video/*,application/pdf,application/msword,...',
+                    dictDefaultMessage: "فایل‌ها را اینجا رها کنید یا کلیک کنید برای انتخاب",
+
+                    init: function () {
+                        this.on("sending", function (file, xhr, formData) {
+                            formData.append("record_id", recordId); // اینجا از هر فرم جدا record_id می‌گیریم
+                        });
+
+                        this.on("success", function (file, response) {
+                            const extension = file.name.split('.').pop().toLowerCase();
+                            previewFile(response.file_path.replace(/^\/+/, ''), extension);
+                            showToast("✅ فایل با موفقیت آپلود شد");
+                        });
+
+                        this.on("error", function (file, response) {
+                            showToast("❌ خطا در آپلود فایل", "danger");
+                        });
+                    }
+                });
+            });
         });
     </script>
 @endsection
