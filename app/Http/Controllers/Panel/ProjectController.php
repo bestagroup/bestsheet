@@ -105,9 +105,9 @@ class ProjectController extends Controller
                     if (auth()->user()->can('can-access', ['project', 'delete'])) {
                         $actionBtn .= '<button class="btn btn-sm btn-icon btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal'.$data->id.'"><i class="mdi mdi-delete-outline"></i></button>';
                     }
-                    $actionBtn .= '<button class="btn btn-sm btn-icon btn-eye" data-bs-toggle="modal" data-bs-target="#showModal'.$data->id.'"><i class="mdi mdi-eye"></i></button>';
+                        $actionBtn .= '<button class="btn btn-sm btn-icon btn-eye" data-bs-toggle="modal" data-bs-target="#showModal'.$data->id.'"><i class="mdi mdi-eye"></i></button>';
 
-                    $actionBtn .= '<button class="btn btn-sm btn-icon btn-image" data-bs-toggle="modal" data-bs-target="#uploadModal'.$data->id.'"><i class="mdi mdi-file-document-multiple-outline"></i></button>';
+                        $actionBtn .= '<button class="btn btn-sm btn-icon btn-image" data-bs-toggle="modal" data-bs-target="#uploadModal'.$data->id.'"><i class="mdi mdi-file-document-multiple-outline"></i></button>';
 
                     return $actionBtn;
                 })
@@ -185,19 +185,20 @@ class ProjectController extends Controller
         $project->progress_percentage           = $request->input('progress_percentage');
         $project->activity_status               = $request->input('activity_status');
         $project->start_date                    = $request->input('start_date');
-        $project->amount_request_accept         = $request->input('amount_request_accept');
-        $project->amount_deposited              = $request->input('amount_deposited');
-        $project->amount_commitment_first_stage = $request->input('amount_commitment_first_stage');
-        $project->first_stage_payment           = $request->input('first_stage_payment');
-        $project->amount_commitment_second_stage= $request->input('amount_commitment_second_stage');
-        $project->second_stage_payment          = $request->input('second_stage_payment');
-        $project->amount_commitment_third_stage = $request->input('amount_commitment_third_stage');
-        $project->third_stage_payment           = $request->input('third_stage_payment');
-        $project->amount_commitment_fourth_stage= $request->input('amount_commitment_fourth_stage');
-        $project->fourth_stage_payment          = $request->input('fourth_stage_payment');
-        $project->amount_commitment_fifth_stage = $request->input('amount_commitment_fifth_stage');
-        $project->fifth_stage_payment           = $request->input('fifth_stage_payment');
-        $project->commitment_balance            = $request->input('commitment_balance');
+        $project->amount_request_accept         = $request->filled('amount_request_accept')          ? str_replace(',', '', $request->input('amount_request_accept'))          : null;
+        $project->amount_deposited              = $request->filled('amount_deposited')               ? str_replace(',', '', $request->input('amount_deposited'))               : null;
+        $project->amount_commitment_first_stage = $request->filled('amount_commitment_first_stage')  ? str_replace(',', '', $request->input('amount_commitment_first_stage'))  : null;
+        $project->first_stage_payment           = $request->filled('first_stage_payment')            ? str_replace(',', '', $request->input('first_stage_payment'))            : null;
+        $project->amount_commitment_second_stage= $request->filled('amount_commitment_second_stage') ? str_replace(',', '', $request->input('amount_commitment_second_stage')) : null;
+        $project->second_stage_payment          = $request->filled('second_stage_payment')           ? str_replace(',', '', $request->input('second_stage_payment'))           : null;
+        $project->amount_commitment_third_stage = $request->filled('amount_commitment_third_stage')  ? str_replace(',', '', $request->input('amount_commitment_third_stage'))  : null;
+        $project->third_stage_payment           = $request->filled('third_stage_payment')            ? str_replace(',', '', $request->input('third_stage_payment'))            : null;
+        $project->amount_commitment_fourth_stage= $request->filled('amount_commitment_fourth_stage') ? str_replace(',', '', $request->input('amount_commitment_fourth_stage')) : null;
+        $project->fourth_stage_payment          = $request->filled('fourth_stage_payment')           ? str_replace(',', '', $request->input('fourth_stage_payment'))           : null;
+        $project->amount_commitment_fifth_stage = $request->filled('amount_commitment_fifth_stage')  ? str_replace(',', '', $request->input('amount_commitment_fifth_stage'))  : null;
+        $project->fifth_stage_payment           = $request->filled('fifth_stage_payment')            ? str_replace(',', '', $request->input('fifth_stage_payment'))            : null;
+        $project->commitment_balance            = $request->filled('commitment_balance')             ? str_replace(',', '', $request->input('commitment_balance'))             : null;
+        $project->logo                          = $request->input('logo');
         $result = $project->update();
         try{
             if ($result == true) {

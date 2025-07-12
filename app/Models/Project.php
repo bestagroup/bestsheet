@@ -32,6 +32,7 @@ class Project extends Model
         'amount_commitment_fifth_stage' ,
         'fifth_stage_payment'           ,
         'commitment_balance'            ,
+        'logo'                          ,
     ];
 
 }

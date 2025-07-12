@@ -93,7 +93,7 @@ class FilemanagerController extends Controller
     public function store(Request $request)
     {
 
-        dd($request->all());
+        //dd($request->all());
         //dd($request->file('file'));
 
         $request->validate([
@@ -104,6 +104,7 @@ class FilemanagerController extends Controller
         $originalName   = $file->getClientOriginalName();
         $extension      = $file->getClientOriginalExtension();
         $size           = $file->getSize();
+        $project_id     = $request->input('record_id');
 
         $mime = $request->file('file')->getMimeType();
 
@@ -121,14 +122,19 @@ class FilemanagerController extends Controller
             default                                                        => 'others',
         };
         $fileName = uniqid() . '.' . $extension;
-        $path = $file->storeAs("uploads/$type", $fileName, 'public');
+        if ($request->input('record_id')){
+            $path = $file->storeAs("uploads/".$request->input('record_id').'/'.$type, $fileName, 'public');
 
+        }else {
+            $path = $file->storeAs("uploads/" . $type, $fileName, 'public');
+        }
         MediaFile::create([
             'name'          => $fileName,
             'original_name' => $originalName,
             'type'          => rtrim($type, 's'),
             'file_path'     => $path,
             'size'          => $size,
+            'project_id'    => $project_id,
             'user_id'       => Auth::user()->id,
         ]);
 
@@ -160,5 +166,24 @@ class FilemanagerController extends Controller
             $message = 'اطلاعات پاک نشد،لطفا بعدا مجدد تلاش نمایید ';
         }
         return response()->json(['success'=>$success , 'subject' => $subject, 'flag' => $flag, 'message' => $message]);
+    }
+
+    public function selectfile(Request $request)
+    {
+
+        $thispage       = [
+            'title'   => 'مدیریت فایل ها',
+            'list'    => 'لیست فایل ها',
+            'add'     => 'افزودن فایل ها',
+            'create'  => 'ایجاد فایل ها',
+            'enter'   => 'ورود فایل ها',
+            'edit'    => 'ویرایش فایل ها',
+            'delete'  => 'حذف فایل ها',
+        ];
+
+        $recordId = $request->record_id;
+        $files = MediaFile::where('project_id', $recordId)->get();
+        //dd($files);
+        return view('panel.files', compact('files' , 'thispage'));
     }
 }

@@ -23,6 +23,8 @@ Route::middleware('admin')->namespace('App\Http\Controllers\Panel')->group(funct
     Route::resource('panel/paidmanage'   , 'PaidController');
     Route::resource('panel/receivemanage', 'ReceiveController');
     Route::post('panel/store'              , 'FilemanagerController@store')->name('storemedia');
+    Route::get('panel/selectfile'          , 'FilemanagerController@selectfile')->name('selectfile');
+
 });
 
 

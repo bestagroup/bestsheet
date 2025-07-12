@@ -182,93 +182,97 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{route(request()->segment(2).'.update' , $project->id)}}" id="editform_{{$project->id}}" method="POST">
+                        <form action="{{route(request()->segment(2).'.update' , $project->id)}}" id="editform_{{$project->id}}" method="POST" enctype="multipart/form-data">
                             {{csrf_field()}}
                             <input type="hidden" name="menu_id" id="menu_id_{{$project->id}}" value="{{$project->id}}" />
                             <div class="row mb-3">
                                 <div class="col-md-3">
                                     <label class="form-label">نام تجاری طرح</label>
-                                    <input type="text" name="title" id="title" value="{{$project->title}}" class="form-control" />
+                                    <input type="text" name="title" id="title_{{$project->id}}" value="{{$project->title}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">نام شرکت</label>
-                                    <input type="text" name="company_name" id="company_name" value="{{$project->company_name}}" class="form-control" />
+                                    <input type="text" name="company_name" id="company_name_{{$project->id}}" value="{{$project->company_name}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">مدیرعامل شرکت</label>
-                                    <input type="text" name="CEO" id="CEO" value="{{$project->CEO}}" class="form-control" />
+                                    <input type="text" name="CEO" id="CEO_{{$project->id}}" value="{{$project->CEO}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">وضعیت پرتفو</label>
-                                    <input type="text" name="portfo_status" id="portfo_status" value="{{$project->portfo_status}}" class="form-control" />
+                                    <input type="text" name="portfo_status" id="portfo_status_{{$project->id}}" value="{{$project->portfo_status}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">مرحله فرایند شرکت</label>
-                                    <input type="text" name="flow_level" id="flow_level" value="{{$project->flow_level}}" class="form-control" />
+                                    <input type="text" name="flow_level" id="flow_level_{{$project->id}}" value="{{$project->flow_level}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">درصد پیشرفت</label>
-                                    <input type="text" name="progress_percentage" id="progress_percentage" value="{{$project->progress_percentage}}" class="form-control" />
+                                    <input type="text" name="progress_percentage" id="progress_percentage_{{$project->id}}" value="{{$project->progress_percentage}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">وضعیت فعالیت</label>
-                                    <input type="text" name="activity_status" id="activity_status" value="{{$project->activity_status}}" class="form-control" />
+                                    <input type="text" name="activity_status" id="activity_status_{{$project->id}}" value="{{$project->activity_status}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">تاریخ شروع قرارداد</label>
-                                    <input type="text" name="start_date" id="start_date" value="{{$project->start_date}}" class="form-control" />
+                                    <input type="text" name="start_date" id="start_date_{{$project->id}}" value="{{$project->start_date}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">مبلغ درخواستی تایید شده</label>
-                                    <input type="text" name="amount_request_accept" id="amount_request_accept" value="{{number_format($project->amount_request_accept)}}" class="form-control" />
+                                    <input type="text" name="amount_request_accept" id="amount_request_accept_{{$project->id}}" value="{{number_format($project->amount_request_accept)}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">مبلغ واریز شده</label>
-                                    <input type="text" name="amount_deposited" id="amount_deposited" value="{{number_format($project->amount_deposited)}}" class="form-control" />
+                                    <input type="text" name="amount_deposited" id="amount_deposited_{{$project->id}}" value="{{number_format($project->amount_deposited)}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">مبلغ تعهد مرحله اول</label>
-                                    <input type="text" name="amount_commitment_first_stage" id="amount_commitment_first_stage" value="{{number_format($project->amount_commitment_first_stage)}}" class="form-control" />
+                                    <input type="text" name="amount_commitment_first_stage" id="amount_commitment_first_stage_{{$project->id}}" value="{{number_format($project->amount_commitment_first_stage)}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">واریز قسط مرحله اول</label>
-                                    <input type="text" name="first_stage_payment" id="first_stage_payment" value="{{number_format($project->first_stage_payment)}}" class="form-control" />
+                                    <input type="text" name="first_stage_payment" id="first_stage_payment_{{$project->id}}" value="{{number_format($project->first_stage_payment)}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">مبلغ تعهد مرحله دوم</label>
-                                    <input type="text" name="amount_commitment_second_stage" id="amount_commitment_second_stage" value="{{number_format($project->amount_commitment_second_stage)}}" class="form-control" />
+                                    <input type="text" name="amount_commitment_second_stage" id="amount_commitment_second_stage_{{$project->id}}" value="{{number_format($project->amount_commitment_second_stage)}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">واریز قسط مرحله دوم</label>
-                                    <input type="text" name="second_stage_payment" id="second_stage_payment" value="{{number_format($project->second_stage_payment)}}" class="form-control" />
+                                    <input type="text" name="second_stage_payment" id="second_stage_payment_{{$project->id}}" value="{{number_format($project->second_stage_payment)}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">مبلغ تعهد مرحله سوم</label>
-                                    <input type="text" name="amount_commitment_third_stage" id="amount_commitment_third_stage" value="{{number_format($project->amount_commitment_third_stage)}}" class="form-control" />
+                                    <input type="text" name="amount_commitment_third_stage" id="amount_commitment_third_stage_{{$project->id}}" value="{{number_format($project->amount_commitment_third_stage)}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">واریز قسط مرحله سوم</label>
-                                    <input type="text" name="third_stage_payment" id="third_stage_payment" value="{{number_format($project->third_stage_payment)}}" class="form-control" />
+                                    <input type="text" name="third_stage_payment" id="third_stage_payment_{{$project->id}}" value="{{number_format($project->third_stage_payment)}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">مبلغ تعهد مرحله چهارم</label>
-                                    <input type="text" name="amount_commitment_fourth_stage" id="amount_commitment_fourth_stage" value="{{number_format($project->amount_commitment_fourth_stage)}}" class="form-control" />
+                                    <input type="text" name="amount_commitment_fourth_stage" id="amount_commitment_fourth_stage_{{$project->id}}" value="{{number_format($project->amount_commitment_fourth_stage)}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">واریز قسط مرحله چهارم</label>
-                                    <input type="text" name="fourth_stage_payment" id="fourth_stage_payment" value="{{number_format($project->fourth_stage_payment)}}" class="form-control" />
+                                    <input type="text" name="fourth_stage_payment" id="fourth_stage_payment_{{$project->id}}" value="{{number_format($project->fourth_stage_payment)}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">مبلغ تعهد مرحله پنجم</label>
-                                    <input type="text" name="amount_commitment_fifth_stage" id="amount_commitment_fifth_stage" value="{{number_format($project->amount_commitment_fifth_stage)}}" class="form-control" />
+                                    <input type="text" name="amount_commitment_fifth_stage" id="amount_commitment_fifth_stage_{{$project->id}}" value="{{number_format($project->amount_commitment_fifth_stage)}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">واریز قسط مرحله پنجم</label>
-                                    <input type="text" name="fifth_stage_payment" id="fifth_stage_payment" value="{{number_format($project->fifth_stage_payment)}}" class="form-control" />
+                                    <input type="text" name="fifth_stage_payment" id="fifth_stage_payment_{{$project->id}}" value="{{number_format($project->fifth_stage_payment)}}" class="form-control" />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">مانده تعهدات</label>
-                                    <input type="text" name="commitment_balance" id="commitment_balance" value="{{number_format($project->commitment_balance)}}" class="form-control" />
+                                    <input type="text" name="commitment_balance" id="commitment_balance_{{$project->id}}" value="{{number_format($project->commitment_balance)}}" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">لوگو شرکت</label>
+                                    <input type="text" name="logo" class="form-control file-selector logo_{{$project->id}}" data-record-id="{{ $project->id }}" data-input-id="input_{{ $project->id }}" id="input_{{ $project->id }}" readonly placeholder="انتخاب فایل برای پروژه {{ $project->id }}">
                                 </div>
                             </div>
                             <div class="text-end">
@@ -280,10 +284,8 @@
             </div>
         </div>
     @endforeach
-
+    <!-- Edit Modal -->
     @foreach($projects as $project)
-
-        <!-- مدال -->
         <div class="modal fade" id="showModal{{ $project->id }}" tabindex="-1" aria-labelledby="editModalLabel{{$project->id}}" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
@@ -328,7 +330,7 @@
                         <div class="tab-content mt-3" id="companyTabsContent{{ $project->id }}">
                             <!-- Profile Tab -->
                             <div class="tab-pane fade show active" id="tab-profile{{ $project->id }}" role="tabpanel" aria-labelledby="profile-tab{{ $project->id }}">
-                                <img src="{{ $project->logo_url ?? 'logo.png' }}" class="rounded-circle mb-3" width="80" height="80" alt="لوگو">
+                                <img src="{{ $project->logo }}" class="rounded-circle mb-3" width="80" height="80" alt="لوگو">
                                 <p><strong>نام تجاری:</strong> {{ $project->company_name }}</p>
                                 <p><strong>مدیرعامل:</strong> {{ $project->CEO }}</p>
                                 <p><strong>شماره موبایل:</strong> {{ $project->ceo_phone }}</p>
@@ -402,15 +404,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST"
-                          action="{{ route('storemedia') }}"
-                          enctype="multipart/form-data"
-                          class="dropzone"
-                          id="fileUploadZone{{ $project->id }}"
-                          data-record-id="{{ $project->id }}"
-                          style="min-height: 200px; border-style: dashed; border: 2px dashed #ccc; padding: 20px; margin-bottom: 30px;">
+                    <form method="POST" action="{{ route('storemedia') }}" enctype="multipart/form-data" class="dropzone" id="fileUploadZone{{ $project->id }} myform" data-record-id="{{ $project->id }}" style="min-height: 200px; border-style: dashed; border: 2px dashed #ccc; padding: 20px; margin-bottom: 30px;">
                         @csrf
-
+                        <input type="hidden" name="record_id" value="{{ $project->id }}">
                         <div class="dz-message text-center text-muted">
                             <div class="mb-3">
                                 <i class="bi bi-cloud-arrow-up" style="font-size: 3rem;"></i>
@@ -468,7 +464,7 @@
         </div>
     </div>
 
-        <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+        <div class="modal fade" id="showwModal{{ $project->id }}" tabindex="-1" aria-labelledby="showModalLabel{{ $project->id }}" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -618,28 +614,30 @@
                     url: "{{ route(request()->segment(2).'.update' , 0) }}",
                     method: 'PATCH',
                     data: {
-                        "_token"        : "{{ csrf_token() }}",
-                        title                         :jQuery('#title').val(),
-                        company_name                  :jQuery('#company_name').val(),
-                        CEO                           :jQuery('#CEO').val(),
-                        portfo_status                 :jQuery('#portfo_status').val(),
-                        flow_level                    :jQuery('#flow_level').val(),
-                        progress_percentage           :jQuery('#progress_percentage').val(),
-                        activity_status               :jQuery('#activity_status').val(),
-                        start_date                    :jQuery('#start_date').val(),
-                        amount_request_accept         :jQuery('#amount_request_accept').val(),
-                        amount_deposited              :jQuery('#amount_deposited').val(),
-                        amount_commitment_first_stage :jQuery('#amount_commitment_first_stage').val(),
-                        first_stage_payment           :jQuery('#first_stage_payment').val(),
-                        amount_commitment_second_stage:jQuery('#amount_commitment_second_stage').val(),
-                        second_stage_payment          :jQuery('#second_stage_payment').val(),
-                        amount_commitment_third_stage :jQuery('#amount_commitment_third_stage').val(),
-                        third_stage_payment           :jQuery('#third_stage_payment').val(),
-                        amount_commitment_fourth_stage:jQuery('#amount_commitment_fourth_stage').val(),
-                        fourth_stage_payment          :jQuery('#fourth_stage_payment').val(),
-                        amount_commitment_fifth_stage :jQuery('#amount_commitment_fifth_stage').val(),
-                        fifth_stage_payment           :jQuery('#fifth_stage_payment').val(),
-                        commitment_balance            :jQuery('#commitment_balance').val(),
+                        "_token"                      : "{{ csrf_token() }}",
+                        id                            : jQuery('#menu_id_' + id).val(),
+                        title                         :jQuery('#title_' + id).val(),
+                        company_name                  :jQuery('#company_name_' +id).val(),
+                        CEO                           :jQuery('#CEO_' +id).val(),
+                        portfo_status                 :jQuery('#portfo_status_' +id).val(),
+                        flow_level                    :jQuery('#flow_level_' +id).val(),
+                        progress_percentage           :jQuery('#progress_percentage_' +id).val(),
+                        activity_status               :jQuery('#activity_status_' +id).val(),
+                        start_date                    :jQuery('#start_date_' +id).val(),
+                        amount_request_accept         :jQuery('#amount_request_accept_' +id).val(),
+                        amount_deposited              :jQuery('#amount_deposited_' +id).val(),
+                        amount_commitment_first_stage :jQuery('#amount_commitment_first_stage_' +id).val(),
+                        first_stage_payment           :jQuery('#first_stage_payment_' +id).val(),
+                        amount_commitment_second_stage:jQuery('#amount_commitment_second_stage_' +id).val(),
+                        second_stage_payment          :jQuery('#second_stage_payment_' +id).val(),
+                        amount_commitment_third_stage :jQuery('#amount_commitment_third_stage_' +id).val(),
+                        third_stage_payment           :jQuery('#third_stage_payment_' +id).val(),
+                        amount_commitment_fourth_stage:jQuery('#amount_commitment_fourth_stage_' +id).val(),
+                        fourth_stage_payment          :jQuery('#fourth_stage_payment_' +id).val(),
+                        amount_commitment_fifth_stage :jQuery('#amount_commitment_fifth_stage_' +id).val(),
+                        fifth_stage_payment           :jQuery('#fifth_stage_payment_' +id).val(),
+                        commitment_balance            :jQuery('#commitment_balance_' +id).val(),
+                        logo                          :jQuery('.logo_' +id).val(),
                     },
                     success: function (data) {
                         if(data.success == true){
@@ -726,8 +724,6 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll("form.dropzone").forEach(formEl => {
-                const recordId = formEl.getAttribute("data-record-id");
-console.log(recordId);
                 const dz = new Dropzone(formEl, {
                     url: "{{ route('storemedia') }}",
                     headers: {
@@ -738,10 +734,6 @@ console.log(recordId);
                     dictDefaultMessage: "فایل‌ها را اینجا رها کنید یا کلیک کنید برای انتخاب",
 
                     init: function () {
-                        this.on("sending", function (file, xhr, formData) {
-                            formData.append("record_id", recordId); // اینجا از هر فرم جدا record_id می‌گیریم
-                        });
-
                         this.on("success", function (file, response) {
                             const extension = file.name.split('.').pop().toLowerCase();
                             previewFile(response.file_path.replace(/^\/+/, ''), extension);
@@ -754,6 +746,24 @@ console.log(recordId);
                     }
                 });
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let activeInputId = null;
+            document.querySelectorAll('.file-selector').forEach(input => {
+                input.addEventListener('click', function () {
+                    const recordId = this.dataset.recordId;
+                    activeInputId = this.dataset.inputId;
+
+                    window.open(`{{ route('selectfile') }}?record_id=${recordId}`, 'FileManager', 'width=800,height=600');
+                });
+            });
+            window.setFileUrl = function (url) {
+                if (activeInputId) {
+                    document.getElementById(activeInputId).value = url;
+                }
+            };
         });
     </script>
 @endsection
